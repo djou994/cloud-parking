@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ParkingControllerTest {
+class ParkingControllerTest extends AbstractContainerBase {
 
     @LocalServerPort
     private int randomPort;
@@ -24,14 +24,11 @@ class ParkingControllerTest {
     @Test
     void whenFindAllThenCheckResult() {
         RestAssured.given()
+                .header("Authorization", "Basic dXNlcjpEaW9AMTIzNDU2")
                 .when()
                 .get("/parking")
                 .then()
                 .statusCode(200);
-    }
-
-    @Test
-    void findById() {
     }
 
     @Test
@@ -45,23 +42,12 @@ class ParkingControllerTest {
 
         RestAssured.given()
                 .when()
+                .header("Authorization", "Basic dXNlcjpEaW9AMTIzNDU2")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(createDTO)
                 .post("/parking")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .body("license", Matchers.equalTo("WRT-5555"));
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void exit() {
     }
 }
